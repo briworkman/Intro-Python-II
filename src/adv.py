@@ -73,21 +73,33 @@ def move():
             print("Goodbye!")
             break
         elif direction.lower() == "n" and player.current_room != None:
-            print("Going North")
-            player.current_room = current_room.n_to
-            os.system("clear")
+            if player.current_room.n_to is not None:
+                print("Going North")
+                player.current_room = current_room.n_to
+                os.system("clear")
+            else:
+                print("You cannot go that way! Please choose another direction")
         elif direction.lower() == "s" and player.current_room != None:
-            print("Going South")
-            player.current_room = current_room.s_to
-            os.system("clear")
+            if player.current_room.s_to is not None:
+                print("Going South")
+                player.current_room = current_room.s_to
+                os.system("clear")
+            else:
+                print("You cannot go that way! Please choose another direction")
         elif direction.lower() == "e" and player.current_room != None:
-            print("Going East")
-            player.current_room = current_room.e_to
-            os.system("clear")
+            if player.current_room.e_to is not None:
+                print("Going Easet")
+                player.current_room = current_room.e_to
+                os.system("clear")
+            else:
+                print("You cannot go that way! Please choose another direction")
         elif direction.lower() == "w" and player.current_room != None:
-            print("Going West")
-            player.current_room = current_room.w_to
-            os.system("clear")
+            if player.current_room.w_to is not None:
+                print("Going West")
+                player.current_room = current_room.w_to
+                os.system("clear")
+            else:
+                print("You cannot go that way! Please choose another direction")
         else:
             print("Please choose a proper direction!")
             direction = input("[n] North  [s] South  [e] East   [w] West  [q] Quit -> ")
