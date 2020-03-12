@@ -26,6 +26,8 @@ class Room:
             return_string += "You've found an item!"
             return_string += "\n"
             return_string += str(self.items[0])
+            return_string += "\n"
+            return_string += "Press [g] to pick it up!"
         else:
             return_string += "\n\n"
             return_string += "No items here!"

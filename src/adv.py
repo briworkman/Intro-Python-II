@@ -55,7 +55,6 @@ room["treasure"].items.append(treasure)
 
 # Make a new player object that is currently in the 'outside' room.
 player = Player("Me", room["outside"], [])
-# player.items.append(key)
 print(player.current_room)
 # Write a loop that:
 #
@@ -80,5 +79,11 @@ while True:
         player.travel(cmd)
     elif cmd == "i":
         print(player.print_inventory())
+    elif cmd == "g" and player.current_room == room["outside"]:
+        player.items.append(key)
+    elif cmd == "g" and player.current_room == room["foyer"]:
+        player.items.append(sword)
+    elif cmd == "g" and player.current_room == room["treasure"]:
+        player.items.append(treasure)
     else:
         print("Please choose a proper direction")
