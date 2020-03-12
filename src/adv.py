@@ -42,13 +42,15 @@ room["narrow"].w_to = room["foyer"]
 room["narrow"].n_to = room["treasure"]
 room["treasure"].s_to = room["narrow"]
 
-key = Item("Key", "This is a key. Use it to unlock the secret door.")
-sword = Item("Sword", "This is a sword. Use it to fight your enemies.")
-treasure = Item("Treasure", "This is the secret treasure. You've found it!")
+item = {
+    "key": Item("Key", "This is a key. Use it to unlock the secret door."),
+    "sword": Item("Sword", "This is a sword. Use it to fight your enemies."),
+    "treasure": Item("Treasure", "This is the secret treasure. You've found it!"),
+}
 
-room["outside"].items.append(key)
-room["foyer"].items.append(sword)
-room["treasure"].items.append(treasure)
+room["outside"].items.append(item["key"])
+room["foyer"].items.append(item["sword"])
+room["treasure"].items.append(item["treasure"])
 #
 # Main
 #
@@ -79,11 +81,14 @@ while True:
         player.travel(cmd)
     elif cmd == "i":
         print(player.print_inventory())
-    elif cmd == "g" and player.current_room == room["outside"]:
-        player.items.append(key)
-    elif cmd == "g" and player.current_room == room["foyer"]:
-        player.items.append(sword)
-    elif cmd == "g" and player.current_room == room["treasure"]:
-        player.items.append(treasure)
+    elif cmd == "g":
+        player.items.append(item["key"])
+        player.current_room.items.remove(item["key"])
+    elif cmd == "g":
+        player.items.append(item["sword"])
+        player.current_room.items.remove(item["sword"])
+    elif cmd == "g":
+        player.items.append(item["treasure"])
+        player.current_room.items.remove(item["treasure"])
     else:
         print("Please choose a proper direction")
