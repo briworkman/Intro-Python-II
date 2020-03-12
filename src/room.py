@@ -1,9 +1,13 @@
 # Implement a class to hold room information. This should have name and
 # description attributes.
+from item import Item
+
+
 class Room:
     def __init__(self, name, description):
         self.name = name
         self.description = description
+        self.items = []
         self.n_to = None
         self.s_to = None
         self.e_to = None
@@ -17,6 +21,14 @@ class Room:
         return_string += self.description
         return_string += "\n\n"
         return_string += f"{self.get_exits_string()}"
+        if len(self.items) >= 1:
+            return_string += "\n\n"
+            return_string += "You've found an item!"
+            return_string += "\n"
+            return_string += str(self.items[0])
+        else:
+            return_string += "\n\n"
+            return_string += "No items here!"
         return return_string
 
     def get_exits_string(self):
