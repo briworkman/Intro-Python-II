@@ -82,13 +82,24 @@ while True:
     elif cmd == "i":
         print(player.print_inventory())
     elif cmd == "g":
-        player.items.append(item["key"])
-        player.current_room.items.remove(item["key"])
-    elif cmd == "g":
-        player.items.append(item["sword"])
-        player.current_room.items.remove(item["sword"])
-    elif cmd == "g":
-        player.items.append(item["treasure"])
-        player.current_room.items.remove(item["treasure"])
+        if player.current_room.items[0] == item["key"]:
+            player.items.append(item["key"])
+            player.current_room.items.remove(item["key"])
+        elif player.current_room.items[0] == item["sword"]:
+            player.items.append(item["sword"])
+            player.current_room.items.remove(item["sword"])
+        elif player.current_room.items[0] == item["treasure"]:
+            player.items.append(item["treasure"])
+            player.current_room.items.remove(item["treasure"])
+    elif cmd == "d":
+        if player.items[0] == item["key"]:
+            player.items.remove(item["key"])
+            player.current_room.items.append(item["key"])
+        elif player.items[0] == item["sword"]:
+            player.items.remove(item["sword"])
+            player.current_room.items.append(item["sword"])
+        elif player.items[0] == item["treasure"]:
+            player.items.remove(item["treasure"])
+            player.current_room.items.append(item["treasure"])
     else:
         print("Please choose a proper direction")
