@@ -1,7 +1,3 @@
-import textwrap
-import sys
-import os
-
 from room import Room
 from player import Player
 
@@ -50,7 +46,8 @@ room["treasure"].s_to = room["narrow"]
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player = Player("Me", room["outside"])
+player = Player(input("Please enter your name: "), room["outside"])
+print(player.current_room)
 # Write a loop that:
 #
 # * Prints the current room name
@@ -62,48 +59,15 @@ player = Player("Me", room["outside"])
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
-def move():
-    while True:
-        current_room = player.current_room
-        print("Current Room: ", player.current_room.name)
-        print("Room Description: ", player.current_room.description)
-        print("Which way do you want to go?")
-        direction = input("[n] North  [s] South  [e] East   [w]  West  [q] Quit -> ")
-        if direction.lower() == "q":
-            print("Goodbye!")
-            break
-        elif direction.lower() == "n" and player.current_room != None:
-            if player.current_room.n_to is not None:
-                print("Going North")
-                player.current_room = current_room.n_to
-                os.system("clear")
-            else:
-                print("You cannot go that way! Please choose another direction")
-        elif direction.lower() == "s" and player.current_room != None:
-            if player.current_room.s_to is not None:
-                print("Going South")
-                player.current_room = current_room.s_to
-                os.system("clear")
-            else:
-                print("You cannot go that way! Please choose another direction")
-        elif direction.lower() == "e" and player.current_room != None:
-            if player.current_room.e_to is not None:
-                print("Going Easet")
-                player.current_room = current_room.e_to
-                os.system("clear")
-            else:
-                print("You cannot go that way! Please choose another direction")
-        elif direction.lower() == "w" and player.current_room != None:
-            if player.current_room.w_to is not None:
-                print("Going West")
-                player.current_room = current_room.w_to
-                os.system("clear")
-            else:
-                print("You cannot go that way! Please choose another direction")
-        else:
-            print("Please choose a proper direction!")
-            direction = input("[n] North  [s] South  [e] East   [w] West  [q] Quit -> ")
-            os.system("clear")
 
-
-move()
+# directions = ("n", "s", "e", "w")
+directions = ("n", "s", "e", "w")
+while True:
+    cmd = input("\nWhich way do you want to go? -> ")
+    if cmd == "q":
+        print("Goodbye!")
+        exit(0)
+    elif cmd in directions:
+        player.travel(cmd)
+    else:
+        print("Please choose a proper direction")
