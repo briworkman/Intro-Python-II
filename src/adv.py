@@ -1,9 +1,6 @@
-import textwrap
-import sys
-import os
-
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -45,12 +42,22 @@ room["narrow"].w_to = room["foyer"]
 room["narrow"].n_to = room["treasure"]
 room["treasure"].s_to = room["narrow"]
 
+item = {
+    "key": Item("Key", "This is a key. Use it to unlock the secret door."),
+    "sword": Item("Sword", "This is a sword. Use it to fight your enemies."),
+    "treasure": Item("Treasure", "This is the secret treasure. You've found it!"),
+}
+
+room["outside"].items.append(item["key"])
+room["foyer"].items.append(item["sword"])
+room["treasure"].items.append(item["treasure"])
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player = Player("Me", room["outside"])
+player = Player("Me", room["outside"], [])
+print(player.current_room)
 # Write a loop that:
 #
 # * Prints the current room name
@@ -62,48 +69,37 @@ player = Player("Me", room["outside"])
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
-def move():
-    while True:
-        current_room = player.current_room
-        print("Current Room: ", player.current_room.name)
-        print("Room Description: ", player.current_room.description)
-        print("Which way do you want to go?")
-        direction = input("[n] North  [s] South  [e] East   [w]  West  [q] Quit -> ")
-        if direction.lower() == "q":
-            print("Goodbye!")
-            break
-        elif direction.lower() == "n" and player.current_room != None:
-            if player.current_room.n_to is not None:
-                print("Going North")
-                player.current_room = current_room.n_to
-                os.system("clear")
-            else:
-                print("You cannot go that way! Please choose another direction")
-        elif direction.lower() == "s" and player.current_room != None:
-            if player.current_room.s_to is not None:
-                print("Going South")
-                player.current_room = current_room.s_to
-                os.system("clear")
-            else:
-                print("You cannot go that way! Please choose another direction")
-        elif direction.lower() == "e" and player.current_room != None:
-            if player.current_room.e_to is not None:
-                print("Going Easet")
-                player.current_room = current_room.e_to
-                os.system("clear")
-            else:
-                print("You cannot go that way! Please choose another direction")
-        elif direction.lower() == "w" and player.current_room != None:
-            if player.current_room.w_to is not None:
-                print("Going West")
-                player.current_room = current_room.w_to
-                os.system("clear")
-            else:
-                print("You cannot go that way! Please choose another direction")
-        else:
-            print("Please choose a proper direction!")
-            direction = input("[n] North  [s] South  [e] East   [w] West  [q] Quit -> ")
-            os.system("clear")
 
+directions = ("n", "s", "e", "w")
 
-move()
+while True:
+    cmd = input("\nWhich way do you want to go? -> ")
+    if cmd == "q":
+        print("Goodbye!")
+        break
+    elif cmd in directions:
+        player.travel(cmd)
+    elif cmd == "i":
+        print(player.print_inventory())
+    elif cmd == "g":
+        if player.current_room.items[0] == item["key"]:
+            player.items.append(item["key"])
+            player.current_room.items.remove(item["key"])
+        elif player.current_room.items[0] == item["sword"]:
+            player.items.append(item["sword"])
+            player.current_room.items.remove(item["sword"])
+        elif player.current_room.items[0] == item["treasure"]:
+            player.items.append(item["treasure"])
+            player.current_room.items.remove(item["treasure"])
+    elif cmd == "d":
+        if player.items[0] == item["key"]:
+            player.items.remove(item["key"])
+            player.current_room.items.append(item["key"])
+        elif player.items[0] == item["sword"]:
+            player.items.remove(item["sword"])
+            player.current_room.items.append(item["sword"])
+        elif player.items[0] == item["treasure"]:
+            player.items.remove(item["treasure"])
+            player.current_room.items.append(item["treasure"])
+    else:
+        print("Please choose a proper direction")
